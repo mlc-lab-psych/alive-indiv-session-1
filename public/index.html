@@ -30,8 +30,8 @@
 
         async function fetchData() {
             try {
-                // const response = await fetch('https://alive-indiv-session-1.vercel.app/get-data'); // Make the GET request
-                const response = await fetch('http://localhost:3000/get-data'); // Make the GET request
+                const response = await fetch('https://alive-indiv-session-1.vercel.app/get-data'); // Make the GET request
+                // const response = await fetch('http://localhost:3000/get-data'); // Make the GET request
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
@@ -602,7 +602,7 @@
             const end_block = {
                 type: jsPsychHtmlKeyboardResponse,
                 stimulus: '<p>Thanks for participating!</p>' +
-                    '<p>If you work on this task is approved, you will be invited to participate in Part 2 of the study.</p>' +
+                    '<p>If your work on this task is approved, you will be invited to participate in Part 2 of the study.</p>' +
                     '<p><a href="https://app.prolific.com/submissions/complete?cc=CYIS3IDD">Click here to return to Prolific and complete the study</a>.</p>',
                 choices: "NO_KEYS",
             };
@@ -613,8 +613,8 @@
 
         async function sendResults(results) {
             try {
-                const response = await fetch('http://localhost:3000/submit-results', {
-                // const response = await fetch('https://alive-indiv-session-1.vercel.app/submit-results', {
+                // const response = await fetch('http://localhost:3000/submit-results', {
+                const response = await fetch('https://alive-indiv-session-1.vercel.app/submit-results', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
