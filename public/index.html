@@ -17,6 +17,7 @@
         console.warn = () => {};
         let test_stimuli;
         let images;
+        let confirmationCode;
 
         async function preload_images(data){
             let preloadedImages = []
@@ -41,6 +42,7 @@
                 await preload_images(images).then((result)=>{
                     images = result
                 })
+                confirmationCode = data['confirmationCode']
 
                 initializeJsPsych()
             } catch (error) {
@@ -68,16 +70,12 @@
             }
 
             let subject_id = "alive_images_" + Math.floor(Math.random() * 1000000);
-            let worker_id = getParamFromURL('PROLIFIC_PID') || subject_id;
-            let study_id = getParamFromURL('STUDY_ID') || "NULL";
-            let session_id = getParamFromURL('SESSION_ID') || "NULL";
+            let sona_id = getParamFromURL('SURVEY_CODE') || subject_id;
 
             // Record subject info in the jsPsych data
             jsPsych.data.addProperties({
                 subject: subject_id,
-                worker_id: worker_id,
-                study_id: study_id,
-                session_id: session_id
+                sona_id: sona_id,
             });
 
             let timeline = []
@@ -597,13 +595,16 @@
                 }
             };
 
-            timeline.push(comment_block);
+            confirmationCode += sona_id
 
+            console.log(confirmationCode)
+
+            timeline.push(comment_block);
             const end_block = {
                 type: jsPsychHtmlKeyboardResponse,
                 stimulus: '<p>Thanks for participating!</p>' +
                     '<p>If your work on this task is approved, you will be invited to participate in Part 2 of the study.</p>' +
-                    '<p><a href="https://app.prolific.com/submissions/complete?cc=CYIS3IDD">Click here to return to Prolific and complete the study</a>.</p>',
+                    `<p><a href=${confirmationCode}>Click here to return to SONA and complete the study</a>.</p>`,
                 choices: "NO_KEYS",
             };
             timeline.push(end_block);
@@ -626,8 +627,8 @@
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
 
-                const result = await response.json(); // Parse the JSON response
-                console.log(result.message); // Log success message
+                const result = await response.json();
+                console.log(result.message);
             } catch (error) {
                 console.error('Error sending results:', error);
             }

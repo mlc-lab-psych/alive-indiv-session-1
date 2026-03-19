@@ -24,6 +24,8 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 const database = getDatabase(firebaseApp);
 
+const confirmationCode = process.env.STUDY_COMPLETION_CODE
+
 // Create an instance of an Express app
 const app = express();
 
@@ -155,7 +157,8 @@ app.get('/get-data', (req, res) => {
         }).then((dataset) =>{
             res.status(200).json({
                 test_stimuli: test_stimuli,
-                images: images
+                images: images,
+                confirmationCode: confirmationCode
             })
         })
     })
