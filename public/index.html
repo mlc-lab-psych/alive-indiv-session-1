@@ -70,7 +70,7 @@
             }
 
             let subject_id = "alive_images_" + Math.floor(Math.random() * 1000000);
-            let sona_id = getParamFromURL('SURVEY_CODE') || subject_id;
+            let sona_id = getParamFromURL('id') || subject_id;
 
             // Record subject info in the jsPsych data
             jsPsych.data.addProperties({
@@ -521,7 +521,7 @@
                 data: { test_part: 'fixation' }
             };
 
-            let n_trials = 320;
+            let n_trials = test_stimuli.length;;
             let current_trials = 0;
 
             const test = {
@@ -590,8 +590,8 @@
                             }
 
                         ]},
-                on_finish: function(data) {
-                    sendResults(jsPsych.data.get()['trials']);
+                on_finish: async function(data) {
+                    await sendResults(jsPsych.data.get()['trials']);
                 }
             };
 
